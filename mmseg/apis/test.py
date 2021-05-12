@@ -13,14 +13,13 @@ from mmcv.runner import get_dist_info
 
 def eval_metrics(results,
                  gt_seg_maps,
-                 num_classes,
                  ignore_index,
                  metrics=['mIoU'],
                  nan_to_num=None,
                  label_map=dict(),
                  reduce_zero_label=False):
 
-
+    num_classes =150
     if isinstance(metrics, str):
         metrics = [metrics]
     allowed_metrics = ['mIoU', 'mDice']
@@ -68,12 +67,14 @@ def np2tmp(array, temp_file_name=None):
     np.save(temp_file_name, array)
     return temp_file_name
 
-
 def single_gpu_test(model,
                     data_loader,
                     show=False,
                     out_dir=None,
-                    efficient_test=False):
+                    efficient_test=False,
+                    format_only= None,
+                    myeval=None,
+                    **kwargs):
     """Test with single GPU.
 
     Args:
@@ -134,6 +135,8 @@ def single_gpu_test(model,
         batch_size = data['img'][0].size(0)
         for _ in range(batch_size):
             prog_bar.update()
+        if myeval:
+            eval_metrics(result, myeval, **kwargs)
     return results
 
 
