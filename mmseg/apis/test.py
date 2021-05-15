@@ -139,7 +139,7 @@ def single_gpu_test(model,
                     out_dir=None,
                     efficient_test=False,
                     format_only= None,
-                    myeval=None,
+                    myeval=True,
                     **kwargs):
     """Test with single GPU.
 
