@@ -125,7 +125,7 @@ def main():
         kwargs = {} if args.eval_options is None else args.eval_options
         print("kwargs:::::::::::::",kwargs)
         outputs = single_gpu_test(model, data_loader, args.show, args.show_dir,
-                                  efficient_test,args.eval,**kwargs)
+                                  efficient_test,True,**kwargs)
     else:
         model = MMDistributedDataParallel(
             model.cuda(),
