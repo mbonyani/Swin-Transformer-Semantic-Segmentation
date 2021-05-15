@@ -86,7 +86,7 @@ def eval_metrics(results,
                  reduce_zero_label=False):
 
     num_classes =150
-    ignore_index=True
+    ignore_index=False
     if isinstance(metrics, str):
         metrics = [metrics]
     allowed_metrics = ['mIoU', 'mDice']
