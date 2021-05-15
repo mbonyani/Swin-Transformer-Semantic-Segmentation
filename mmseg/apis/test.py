@@ -79,7 +79,7 @@ def total_intersect_and_union(results,
 
 def eval_metrics(results,
                  gt_seg_maps,
-                 ignore_index,
+                 ignore_index=True,
                  metrics=['mIoU'],
                  nan_to_num=None,
                  label_map=dict(),
@@ -161,6 +161,7 @@ def single_gpu_test(model,
     dataset = data_loader.dataset
     prog_bar = mmcv.ProgressBar(len(dataset))
     for i, data in enumerate(data_loader):
+        print("data:::::",data)
         with torch.no_grad():
             result = model(return_loss=False, **data)
 
@@ -202,7 +203,7 @@ def single_gpu_test(model,
         for _ in range(batch_size):
             prog_bar.update()
         if myeval:
-            eval_metrics(result, myeval, **kwargs)
+            eval_metrics(result, )
     return results
 
 
