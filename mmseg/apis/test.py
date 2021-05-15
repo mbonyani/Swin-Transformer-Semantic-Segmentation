@@ -11,6 +11,72 @@ from mmcv.image import tensor2imgs
 from mmcv.runner import get_dist_info
 
 
+def intersect_and_union(pred_label,
+                        label,
+                        num_classes,
+                        ignore_index,
+                        label_map=dict(),
+                        reduce_zero_label=False):
+
+
+    if isinstance(pred_label, str):
+        pred_label = np.load(pred_label)
+
+    if isinstance(label, str):
+        label = mmcv.imread(label, flag='unchanged', backend='pillow')
+    # modify if custom classes
+    if label_map is not None:
+        for old_id, new_id in label_map.items():
+            label[label == old_id] = new_id
+    if reduce_zero_label:
+        # avoid using underflow conversion
+        label[label == 0] = 255
+        label = label - 1
+        label[label == 254] = 255
+
+    mask = (label != ignore_index)
+    pred_label = pred_label[mask]
+    label = label[mask]
+
+    intersect = pred_label[pred_label == label]
+    area_intersect, _ = np.histogram(
+        intersect, bins=np.arange(num_classes + 1))
+    area_pred_label, _ = np.histogram(
+        pred_label, bins=np.arange(num_classes + 1))
+    area_label, _ = np.histogram(label, bins=np.arange(num_classes + 1))
+    area_union = area_pred_label + area_label - area_intersect
+
+    return area_intersect, area_union, area_pred_label, area_label
+
+
+def total_intersect_and_union(results,
+                              gt_seg_maps,
+                              num_classes,
+                              ignore_index,
+                              label_map=dict(),
+                              reduce_zero_label=False):
+
+
+    num_imgs = len(results)
+    assert len(gt_seg_maps) == num_imgs
+    total_area_intersect = np.zeros((num_classes, ), dtype=np.float)
+    total_area_union = np.zeros((num_classes, ), dtype=np.float)
+    total_area_pred_label = np.zeros((num_classes, ), dtype=np.float)
+    total_area_label = np.zeros((num_classes, ), dtype=np.float)
+    for i in range(num_imgs):
+        area_intersect, area_union, area_pred_label, area_label = \
+            intersect_and_union(results[i], gt_seg_maps[i], num_classes,
+                                ignore_index, label_map, reduce_zero_label)
+        total_area_intersect += area_intersect
+        total_area_union += area_union
+        total_area_pred_label += area_pred_label
+        total_area_label += area_label
+    return total_area_intersect, total_area_union, \
+        total_area_pred_label, total_area_label
+
+
+
+
 def eval_metrics(results,
                  gt_seg_maps,
                  ignore_index,
