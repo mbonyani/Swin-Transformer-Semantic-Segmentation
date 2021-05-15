@@ -219,9 +219,11 @@ class CustomDataset(Dataset):
         """
 
         img_info = self.img_infos[idx]
+        seg_map = osp.join(self.ann_dir, img_info['ann']['seg_map'])
+        gt_seg_map = mmcv.imread(seg_map, flag='unchanged', backend='pillow')
         results = dict(img_info=img_info)
         self.pre_pipeline(results)
-        return self.pipeline(results)
+        return self.pipeline(results),gt_seg_map
 
     def format_results(self, results, **kwargs):
         """Place holder to format result to dataset specific output."""
