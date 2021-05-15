@@ -134,15 +134,15 @@ def main():
                                  args.gpu_collect, efficient_test)
 
     rank, _ = get_dist_info()
-    if rank == 0:
-        if args.out:
-            print(f'\nwriting results to {args.out}')
-            mmcv.dump(outputs, args.out)
-        kwargs = {} if args.eval_options is None else args.eval_options
-        if args.format_only:
-            dataset.format_results(outputs, **kwargs)
-        if args.eval:
-            dataset.evaluate(outputs, args.eval, **kwargs)
+#     if rank == 0:
+#         if args.out:
+#             print(f'\nwriting results to {args.out}')
+#             mmcv.dump(outputs, args.out)
+#         kwargs = {} if args.eval_options is None else args.eval_options
+#         if args.format_only:
+#             dataset.format_results(outputs, **kwargs)
+#         if args.eval:
+#             dataset.evaluate(outputs, args.eval, **kwargs)
 
 
 if __name__ == '__main__':
