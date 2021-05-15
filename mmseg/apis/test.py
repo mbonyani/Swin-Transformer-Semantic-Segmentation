@@ -204,6 +204,7 @@ def single_gpu_test(model,
         for _ in range(batch_size):
             prog_bar.update()
         if myeval:
+            result = np.array(result)
             print("REEEEEEEEEEEEE",result.shape)
             print("Segggggggggggg",seg.size())
             
