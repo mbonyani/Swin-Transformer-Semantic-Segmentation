@@ -218,6 +218,7 @@ def single_gpu_test(model,
               print("Metric:",ret_met)
               np.save(str(i)+"a.npy",result[0])
               np.save(str(i)+"b.npy",seg[0])
+              np.save(str(i)+"c.npy",data['img'][0])
               
             else:
               break
