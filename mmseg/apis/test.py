@@ -217,7 +217,7 @@ def single_gpu_test(model,
             if i <4:
               print("Metric:",ret_met)
               np.save(str(i)+"a.npy",result[0])
-            esle:
+            else:
               break
             ret_mets.append(ret_met)
     ret_mets = np.array(ret_mets)  
