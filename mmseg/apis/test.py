@@ -99,7 +99,9 @@ def eval_metrics(results,
                                                      reduce_zero_label)
     all_acc = total_area_intersect.sum() / total_area_label.sum()
     acc = total_area_intersect / total_area_label
-    ret_metrics = [all_acc, acc]
+#     ret_metrics = [all_acc, acc]
+    ret_metrics = []
+
     for metric in metrics:
         if metric == 'mIoU':
             iou = total_area_intersect / total_area_union
