@@ -216,6 +216,9 @@ def single_gpu_test(model,
             ret_met = eval_metrics(result,seg[:,:,:,0:1] )
             if i <4:
               print("Metric:",ret_met)
+              np.save(str(i)+"a.npy"result[0])
+            esle:
+              break
             ret_mets.append(ret_met)
     ret_mets = np.array(ret_mets)  
     print("final Metric",np.sum(ret_mets)/len(ret_mets))
