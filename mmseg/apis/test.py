@@ -204,6 +204,9 @@ def single_gpu_test(model,
         for _ in range(batch_size):
             prog_bar.update()
         if myeval:
+            print("REEEEEEEEEEEEE",result.shape)
+            print("Segggggggggggg",seg.size())
+            
             eval_metrics(result,seg )
     return results
 
