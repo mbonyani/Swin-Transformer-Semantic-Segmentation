@@ -209,7 +209,7 @@ def single_gpu_test(model,
             print("REEEEEEEEEEEEE",result.shape)
             print("Segggggggggggg",seg.size())
             
-            eval_metrics(result,seg )
+            eval_metrics(result,seg[:,:,:,0:1] )
     return results
 
 
