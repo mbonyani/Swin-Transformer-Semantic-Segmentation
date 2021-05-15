@@ -159,6 +159,8 @@ def single_gpu_test(model,
     print("myeval:::::",myeval)
     model.eval()
     results = []
+    ret_mets = []
+    
     dataset = data_loader.dataset
     prog_bar = mmcv.ProgressBar(len(dataset))
     for i, (data,seg) in enumerate(data_loader):
@@ -206,10 +208,15 @@ def single_gpu_test(model,
         if myeval:
             result = np.array(result)
             result = result.reshape(1,result.shape[1],result.shape[2],1)
-            print("REEEEEEEEEEEEE",result.shape)
-            print("Segggggggggggg",seg.size())
+#             print("REEEEEEEEEEEEE",result.shape)
+#             print("Segggggggggggg",seg.size())
             
-            eval_metrics(result,seg[:,:,:,0:1] )
+            ret_met = eval_metrics(result,seg[:,:,:,0:1] )
+            if i <4:
+              print("Metric:",ret_met)
+            ret_mets.append(ret_met)
+    ret_mets = np.array(ret_mets)  
+    print("final Metric",np.sum(ret_mets)/len(ret_mets))
     return results
 
 
