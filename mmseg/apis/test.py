@@ -79,7 +79,7 @@ def total_intersect_and_union(results,
 
 def eval_metrics(results,
                  gt_seg_maps,
-                 ignore_index=True,
+                 ignore_index=False,
                  metrics=['mIoU'],
                  nan_to_num=None,
                  label_map=dict(),
