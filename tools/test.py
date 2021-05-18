@@ -114,7 +114,7 @@ def main():
     # build the model and load checkpoint
     cfg.model.train_cfg = None
     argsss = cfg.copy()
-
+    print("cfg.model::"cfg.model)
     if isinstance(argsss, list):
         print("TRRRRRRRRRRRRRRRRRRRRR")
     
