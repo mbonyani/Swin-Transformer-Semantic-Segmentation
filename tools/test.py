@@ -114,11 +114,9 @@ def main():
     # build the model and load checkpoint
     cfg.model.train_cfg = None
     argsss = cfg.copy()
-    obj_type = argsss.pop('type')
-    print("obj_typeobj_type::",obj_type)
-    obj_cls = SEGMENTORS.get(obj_type)
-    print("obj_clsobj_cls::",obj_cls)
-    print("argsssargsss::",argsss)
+
+    if isinstance(argsss, list):
+        print("TRRRRRRRRRRRRRRRRRRRRR")
     
     model = build_segmentor(cfg.model, test_cfg=cfg.get('test_cfg'))
     checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
